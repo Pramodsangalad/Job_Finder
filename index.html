@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Readiness Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-200: #bfdbfe;
+            --primary-300: #93c5fd;
+            --primary-400: #60a5fa;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --primary-800: #1e40af;
+            --primary-900: #1e3a8a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(to bottom, transparent, rgb(255, 255, 255)) rgb(214, 219, 220);
+            min-height: 100vh;
+            color: #111827;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-600);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .nav-link.active {
+            background: var(--primary-100);
+            color: var(--primary-700);
+        }
+
+        .nav-link svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+        }
+
+        /* Mobile Nav */
+        .mobile-nav {
+            display: none;
+            border-top: 1px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            overflow-x: auto;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-nav {
+                display: flex;
+            }
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .page-description {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-header svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-600);
+            margin-right: 0.75rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-600);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-700);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+        }
+
+        .btn-lg {
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        /* Form Elements */
+        textarea, input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        textarea:focus, input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px var(--primary-100);
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .alert svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-error svg { color: #dc2626; }
+        .alert-error h3 { color: #991b1b; }
+        .alert-error p { color: #b91c1c; }
+
+        .alert-warning {
+            background: #fefce8;
+            border: 1px solid #fde68a;
+        }
+
+        .alert-warning svg { color: #ca8a04; }
+        .alert-warning h3 { color: #854d0e; }
+        .alert-warning p { color: #a16207; }
+
+        .alert-success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert-success svg { color: #16a34a; }
+        .alert-success h3 { color: #166534; }
+        .alert-success p { color: #15803d; }
+
+        .alert-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        .alert-info svg { color: var(--primary-600); }
+        .alert-info h3 { color: var(--primary-800); }
+        .alert-info p { color: var(--primary-700); }
+
+        /* Checklist Styles */
+        .checklist-summary {
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .checklist-summary.complete {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+        }
+
+        .checklist-summary.incomplete {
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .checklist-item {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background 0.2s;
+        }
+
+        .checklist-item:hover {
+            background: #f9fafb;
+        }
+
+        .checklist-item.checked {
+            background: #f0fdf4;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            margin-right: 1rem;
+            margin-top: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .checkbox:hover {
+            border-color: var(--primary-400);
+        }
+
+        .checkbox.checked {
+            background: var(--primary-500);
+            border-color: var(--primary-500);
+        }
+
+        .checkbox.checked svg {
+            width: 16px;
+            height: 16px;
+            color: white;
+        }
+
+        .checklist-label {
+            font-weight: 500;
+            color: #111827;
+            transition: all 0.2s;
+        }
+
+        .checklist-item.checked .checklist-label {
+            color: #6b7280;
+            text-decoration: line-through;
+        }
+
+        .checklist-number {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .hint-button {
+            margin-left: auto;
+            padding: 0.25rem;
+            color: #9ca3af;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .hint-button:hover {
+            color: var(--primary-600);
+        }
+
+        .hint-box {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .hint-box svg {
+            width: 16px;
+            height: 16px;
+            color: var(--primary-500);
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .hint-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-700);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hint-text {
+            font-size: 0.875rem;
+            color: var(--primary-800);
+            margin-top: 0.25rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 1rem;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar-fill.complete {
+            background: #22c55e;
+        }
+
+        .progress-bar-fill.incomplete {
+            background: var(--primary-500);
+        }
+
+        /* Lock Screen */
+        .lock-screen {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lock-icon {
+            width: 80px;
+            height: 80px;
+            background: #fef2f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .lock-icon svg {
+            width: 40px;
+            height: 40px;
+            color: #dc2626;
+        }
+
+        .lock-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 2px solid #fecaca;
+            overflow: hidden;
+        }
+
+        .lock-header {
+            background: #fef2f2;
+            padding: 2rem;
+            border-bottom: 1px solid #fecaca;
+        }
+
+        .lock-content {
+            padding: 2rem;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: var(--primary-600);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 0 1rem 5rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-color: var(--primary-300);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-50);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-600);
+        }
+
+        .feature-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-link {
+            display: flex;
+            align-items: center;
+            color: var(--primary-600);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .feature-link svg {
+            width: 16px;
+            height: 16px;
+            margin-left: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover .feature-link svg {
+            transform: translateX(4px);
+        }
+
+        /* Skills & Tags */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.875rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+
+        .tag-required {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .tag-preferred {
+            background: #fefce8;
+            color: #854d0e;
+            border: 1px solid #fde68a;
+        }
+
+        .tag-bonus {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        /* Score Circle */
+        .score-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-percentage {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .score-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Skill Toggle */
+        .skill-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-toggle:hover {
+            border-color: #d1d5db;
+        }
+
+        .skill-toggle.enabled {
+            border-color: var(--primary-500);
+            background: var(--primary-50);
+        }
+
+        .skill-toggle-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-checkbox {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .skill-toggle.enabled .skill-checkbox {
+            background: var(--primary-500);
+        }
+
+        .skill-toggle:not(.enabled) .skill-checkbox {
+            background: #e5e7eb;
+        }
+
+        .skill-checkbox svg {
+            width: 16px;
+            height: 16px;
+            color: white;
+        }
+
+        .skill-name {
+            font-weight: 500;
+        }
+
+        .skill-toggle.enabled .skill-name {
+            color: #111827;
+        }
+
+        .skill-toggle:not(.enabled) .skill-name {
+            color: #6b7280;
+        }
+
+        .skill-weight {
+            font-weight: 600;
+        }
+
+        .skill-toggle.enabled .skill-weight {
+            color: var(--primary-600);
+        }
+
+        .skill-toggle:not(.enabled) .skill-weight {
+            color: #9ca3af;
+        }
+
+        /* History Items */
+        .history-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: box-shadow 0.2s;
+        }
+
+        .history-item:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-role {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .history-at {
+            color: #9ca3af;
+            margin: 0 0.5rem;
+        }
+
+        .history-company {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--primary-600);
+        }
+
+        .history-date {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+        }
+
+        .history-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .history-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Export Format */
+        .export-format {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .export-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .export-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .export-title svg {
+            width: 20px;
+            height: 20px;
+            color: var(--primary-600);
+            margin-right: 0.75rem;
+        }
+
+        .export-content {
+            padding: 1.5rem;
+        }
+
+        .export-content pre {
+            background: #111827;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Utility */
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .text-gray { color: #6b7280; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 0.5rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .w-full { width: 100%; }
+        .hidden { display: none; }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #e5e7eb;
+            background: white;
+            padding: 2rem;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="#" class="nav-brand" onclick="showPage('home')">PRP</a>
+                <div class="nav-links">
+                    <a href="#" class="nav-link" data-page="upload" onclick="showPage('upload')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                        Upload
+                    </a>
+                    <a href="#" class="nav-link" data-page="extract" onclick="showPage('extract')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Extract
+                    </a>
+                    <a href="#" class="nav-link" data-page="map" onclick="showPage('map')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.553-.894L15 7m0 13V7"></path></svg>
+                        Map
+                    </a>
+                    <a href="#" class="nav-link" data-page="score" onclick="showPage('score')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        Score
+                    </a>
+                    <a href="#" class="nav-link" data-page="history" onclick="showPage('history')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        History
+                    </a>
+                    <a href="#" class="nav-link" data-page="export" onclick="showPage('export')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Export
+                    </a>
+                    <a href="#" class="nav-link" data-page="test" onclick="showPage('test')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                        Test
+                    </a>
+                    <a href="#" class="nav-link" data-page="ship" onclick="showPage('ship')">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Ship
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Nav -->
+        <div class="mobile-nav">
+            <a href="#" class="nav-link" onclick="showPage('upload')">Upload</a>
+            <a href="#" class="nav-link" onclick="showPage('extract')">Extract</a>
+            <a href="#" class="nav-link" onclick="showPage('map')">Map</a>
+            <a href="#" class="nav-link" onclick="showPage('score')">Score</a>
+            <a href="#" class="nav-link" onclick="showPage('history')">History</a>
+            <a href="#" class="nav-link" onclick="showPage('export')">Export</a>
+            <a href="#" class="nav-link" onclick="showPage('test')">Test</a>
+            <a href="#" class="nav-link" onclick="showPage('ship')">Ship</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Page -->
+        <div id="page-home" class="page active">
+            <div class="hero">
+                <h1>Placement Readiness <span>Platform</span></h1>
+                <p>AI-powered assessment tool to evaluate your placement readiness. Upload job descriptions, extract skills, map assessment rounds, and calculate your score.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg" onclick="showPage('upload')">
+                        Get Started
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-left: 8px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </button>
+                    <button class="btn btn-secondary btn-lg" onclick="showPage('test')">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                        Test Checklist
+                    </button>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card" onclick="showPage('upload')">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    </div>
+                    <h3>Upload JD</h3>
+                    <p>Paste job descriptions for AI analysis</p>
+                    <div class="feature-link">
+                        Go to page
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </div>
+                </div>
+
+                <div class="feature-card" onclick="showPage('extract')">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h3>Extract Skills</h3>
+                    <p>Automatically identify required skills</p>
+                    <div class="feature-link">
+                        Go to page
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </div>
+                </div>
+
+                <div class="feature-card" onclick="showPage('map')">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.553-.894L15 7m0 13V7"></path></svg>
+                    </div>
+                    <h3>Map Rounds</h3>
+                    <p>Understand assessment structure</p>
+                    <div class="feature-link">
+                        Go to page
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </div>
+                </div>
+
+                <div class="feature-card" onclick="showPage('score')">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    </div>
+                    <h3>Calculate Score</h3>
+                    <p>Measure your readiness</p>
+                    <div class="feature-link">
+                        Go to page
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </div>
+                </div>
+
+                <div class="feature-card" onclick="showPage('test')">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    </div>
+                    <h3>Test</h3>
+                    <p>Verify all functionality</p>
+                    <div class="feature-link">
+                        Go to page
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </div>
+                </div>
+
+                <div class="feature-card" onclick="showPage('ship')">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3>Ship</h3>
+                    <p>Deploy when ready</p>
+                    <div class="feature-link">
+                        Go to page
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Page -->
+        <div id="page-upload" class="page">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h1>Upload Job Description</h1>
+                <p class="page-description">Paste the job description to begin the placement readiness assessment.</p>
+
+                <div class="card">
+                    <div class="mb-4">
+                        <label for="jd-text">Job Description</label>
+                        <textarea id="jd-text" rows="12" placeholder="Paste the full job description here..."></textarea>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.875rem; color: #6b7280;">
+                            <span id="jd-char-count">0 characters</span>
+                            <span>Minimum recommended: 200 characters</span>
+                        </div>
+                    </div>
+
+                    <div id="jd-error" class="alert alert-error hidden">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div>
+                            <h3 style="font-size: 0.875rem; font-weight: 600;">Validation Error</h3>
+                            <p style="font-size: 0.875rem; margin-top: 0.25rem;">Job Description is required</p>
+                        </div>
+                    </div>
+
+                    <div id="jd-warning" class="alert alert-warning hidden">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div>
+                            <h3 style="font-size: 0.875rem; font-weight: 600;">Warning</h3>
+                            <p style="font-size: 0.875rem; margin-top: 0.25rem;">Job Description is quite short. Consider adding more details for better analysis.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; font-size: 0.875rem; color: #6b7280;">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Supported: Plain text, copied from any source
+                        </div>
+                        <button class="btn btn-primary" onclick="processJD()">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                            Process JD
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="card">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Step 1</h3>
+                        <p style="font-size: 0.875rem; color: #6b7280;">Copy the full job description from the company's career page or job board.</p>
+                    </div>
+                    <div class="card">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Step 2</h3>
+                        <p style="font-size: 0.875rem; color: #6b7280;">Paste it in the text area above and click Process JD.</p>
+                    </div>
+                    <div class="card">
+                        <h3 style="font-weight: 600; margin-bottom: 0.5rem;">Step 3</h3>
+                        <p style="font-size: 0.875rem; color: #6b7280;">Review extracted skills and proceed to mapping.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extract Page -->
+        <div id="page-extract" class="page">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h1>Extracted Skills</h1>
+                <p class="page-description">AI has analyzed the job description and extracted relevant skills grouped by category.</p>
+
+                <div class="card" style="background: linear-gradient(to right, var(--primary-500), var(--primary-600)); color: white;">
+                    <div style="display: flex; align-items: center;">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 1rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                        <div>
+                            <h2 style="color: white; font-size: 1.25rem;">AI Analysis Complete</h2>
+                            <p style="color: var(--primary-100);">Found 9 skills across 3 categories</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="skills-container">
+                    <!-- Skills will be rendered here -->
+                </div>
+
+                <div class="alert alert-info">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                        <h3 style="font-size: 0.875rem; font-weight: 600;">How skills are grouped</h3>
+                        <ul style="font-size: 0.875rem; margin-top: 0.25rem; padding-left: 1rem;">
+                            <li>Technical Skills: Programming languages, frameworks, tools</li>
+                            <li>Soft Skills: Communication, leadership, collaboration</li>
+                            <li>Domain Knowledge: Industry-specific expertise and methodologies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Page -->
+        <div id="page-map" class="page">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h1>Round Mapping</h1>
+                <p class="page-description">Assessment rounds vary based on company type and your skill set.</p>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            <h2>Select Company</h2>
+                        </div>
+                        <div id="company-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <!-- Companies rendered here -->
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <h2>Select Skill Set</h2>
+                        </div>
+                        <div id="skillset-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <!-- Skill sets rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        <h2>Assessment Rounds</h2>
+                        <span id="round-count" style="margin-left: auto; font-size: 0.875rem; color: #6b7280;">0 rounds</span>
+                    </div>
+                    <div id="rounds-container">
+                        <!-- Rounds rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Score Page -->
+        <div id="page-score" class="page">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h1>Score Calculator</h1>
+                <p class="page-description">Toggle skills to calculate your placement readiness score in real-time.</p>
+
+                <div class="card score-container">
+                    <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--primary-600); margin-right: 0.75rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 3.666V14m-6.118 4.134l1.857-3.667M14.882 18.134L13.025 14.4M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.666V14"></path></svg>
+                        <h2>Your Readiness Score</h2>
+                    </div>
+
+                    <div class="score-circle">
+                        <svg width="200" height="200" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" stroke-width="8"></circle>
+                            <circle id="score-progress" cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 283" style="color: var(--primary-600); transition: all 0.5s;"></circle>
+                        </svg>
+                        <div class="score-value">
+                            <div id="score-percentage" class="score-percentage" style="color: var(--primary-600);">0%</div>
+                            <div id="score-points" class="score-label">0 / 0 points</div>
+                        </div>
+                    </div>
+
+                    <div id="score-message" class="text-lg font-medium" style="color: var(--primary-600);">Toggle skills to see your score</div>
+                </div>
+
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h2>Skill Toggles</h2>
+                        <button class="btn btn-secondary" onclick="resetSkills()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            Reset
+                        </button>
+                    </div>
+
+                    <div id="skills-toggle-container">
+                        <!-- Skill toggles rendered here -->
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                        <h3 style="font-size: 0.875rem; font-weight: 600;">How scoring works</h3>
+                        <p style="font-size: 0.875rem; margin-top: 0.25rem;">Each skill has a weight based on importance. Toggle skills you possess to see your readiness score update in real-time. Aim for 80% or higher for best placement chances.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="page-history" class="page">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h1>Assessment History</h1>
+                <p class="page-description">View and manage your past placement readiness assessments.</p>
+
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center;">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--primary-600); margin-right: 0.75rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div>
+                                <h2>Saved Assessments</h2>
+                                <p id="history-count" style="font-size: 0.875rem; color: #6b7280;">0 assessments saved</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="addSampleAssessment()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                            Save Test Assessment
+                        </button>
+                    </div>
+                </div>
+
+                <div id="history-container">
+                    <!-- History items rendered here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Page -->
+        <div id="page-export" class="page">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h1>Export Assessment</h1>
+                <p class="page-description">Copy your assessment results in various formats for sharing or record-keeping.</p>
+
+                <div id="export-container">
+                    <!-- Export formats rendered here -->
+                </div>
+
+                <div class="alert alert-info">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                        <h3 style="font-size: 0.875rem; font-weight: 600;">Export Tips</h3>
+                        <ul style="font-size: 0.875rem; margin-top: 0.25rem; padding-left: 1rem;">
+                            <li>Summary: Best for quick sharing and printing</li>
+                            <li>JSON: Useful for integration with other tools</li>
+                            <li>Email Format: Ready to paste into your email client</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Checklist Page -->
+        <div id="page-test" class="page">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h1>Test Checklist</h1>
+                <p class="page-description">Verify all functionality before shipping. Check each item after testing.</p>
+
+                <!-- Summary Card -->
+                <div id="checklist-summary" class="checklist-summary incomplete">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center;">
+                            <div id="summary-icon" style="padding: 0.75rem; border-radius: 0.5rem; margin-right: 1rem; background: var(--primary-100); color: var(--primary-600);">
+                                <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                            </div>
+                            <div>
+                                <h2 id="summary-title" style="font-size: 1.25rem;">Tests Passed: 0 / 10</h2>
+                                <p id="summary-subtitle" style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">10 tests remaining</p>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div id="summary-percentage" style="font-size: 2.5rem; font-weight: 700; color: #111827;">0%</div>
+                            <div style="font-size: 0.875rem; color: #6b7280;">Complete</div>
+                        </div>
+                    </div>
+
+                    <div id="checklist-warning" class="alert alert-warning mt-4">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <div>
+                            <h3 style="font-size: 0.875rem; font-weight: 600;">Fix issues before shipping</h3>
+                            <p style="font-size: 0.875rem; margin-top: 0.25rem;">Complete all 10 tests to unlock the shipping page. Unchecked items may indicate bugs or incomplete features.</p>
+                        </div>
+                    </div>
+
+                    <div id="checklist-success" class="alert alert-success mt-4 hidden">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <div>
+                            <h3 style="font-size: 0.875rem; font-weight: 600;">Ready to ship!</h3>
+                            <p style="font-size: 0.875rem; margin-top: 0.25rem;">All tests have passed. You can now proceed to the Ship page to deploy your application.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Checklist Items -->
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <div style="padding: 1rem 1.5rem; background: #f9fafb; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+                        <h2>Test Items</h2>
+                        <button class="btn btn-secondary" onclick="resetChecklist()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            Reset checklist
+                        </button>
+                    </div>
+
+                    <div id="checklist-container">
+                        <!-- Checklist items rendered here -->
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-size: 0.875rem; font-weight: 500; color: #374151;">Overall Progress</span>
+                        <span id="progress-text" style="font-size: 0.875rem; font-weight: 500;">0 of 10</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-fill" class="progress-bar-fill incomplete" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; font-size: 0.75rem; color: #9ca3af;">
+                    Checklist is automatically saved to localStorage and persists across sessions.
+                </p>
+            </div>
+        </div>
+
+        <!-- Ship Page -->
+        <div id="page-ship" class="page">
+            <div id="ship-content" style="max-width: 900px; margin: 0 auto;">
+                <!-- Ship content rendered here based on checklist state -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Placement Readiness Platform - Built for testing and shipping with confidence</p>
+    </footer>
+
+    <script>
+        // ==================== DATA & STATE ====================
+        const checklistData = [
+            {
+                id: "jd-validation",
+                label: "JD required validation works",
+                hint: "Try submitting an empty JD form on the upload page. It should show a validation error.",
+                checked: false
+            },
+            {
+                id: "short-jd-warning",
+                label: "Short JD warning shows for <200 chars",
+                hint: "Enter a job description with less than 200 characters. A warning should appear.",
+                checked: false
+            },
+            {
+                id: "skills-extraction",
+                label: "Skills extraction groups correctly",
+                hint: "Upload a JD and verify skills are grouped into Technical, Soft Skills, and Domain categories.",
+                checked: false
+            },
+            {
+                id: "round-mapping",
+                label: "Round mapping changes based on company + skills",
+                hint: "Select different companies and skill combinations. The assessment rounds should adapt accordingly.",
+                checked: false
+            },
+            {
+                id: "score-calculation",
+                label: "Score calculation is deterministic",
+                hint: "Calculate scores multiple times with the same inputs. Results should be identical.",
+                checked: false
+            },
+            {
+                id: "skill-toggles",
+                label: "Skill toggles update score live",
+                hint: "Toggle skills on/off in the score page. The total score should update in real-time.",
+                checked: false
+            },
+            {
+                id: "persist-refresh",
+                label: "Changes persist after refresh",
+                hint: "Make changes on any page, refresh the browser. Your data should still be there.",
+                checked: false
+            },
+            {
+                id: "history-save-load",
+                label: "History saves and loads correctly",
+                hint: "Save an assessment, then navigate to History. The saved assessment should appear in the list.",
+                checked: false
+            },
+            {
+                id: "export-buttons",
+                label: "Export buttons copy the correct content",
+                hint: "Click export buttons and verify the clipboard contains the expected formatted content.",
+                checked: false
+            },
+            {
+                id: "no-console-errors",
+                label: "No console errors on core pages",
+                hint: "Open browser DevTools console and navigate through all pages. No red errors should appear.",
+                checked: false
+            }
+        ];
+
+        let checklist = JSON.parse(JSON.stringify(checklistData));
+        let expandedHints = new Set();
+
+        const skillGroups = [
+            {
+                category: "Technical Skills",
+                skills: [
+                    { name: "React", level: "required" },
+                    { name: "TypeScript", level: "required" },
+                    { name: "Node.js", level: "preferred" },
+                    { name: "GraphQL", level: "bonus" }
+                ]
+            },
+            {
+                category: "Soft Skills",
+                skills: [
+                    { name: "Communication", level: "required" },
+                    { name: "Teamwork", level: "required" },
+                    { name: "Problem Solving", level: "preferred" }
+                ]
+            },
+            {
+                category: "Domain Knowledge",
+                skills: [
+                    { name: "Agile/Scrum", level: "preferred" },
+                    { name: "CI/CD", level: "bonus" }
+                ]
+            }
+        ];
+
+        const companies = [
+            { id: "google", name: "Google", type: "Product" },
+            { id: "amazon", name: "Amazon", type: "Product" },
+            { id: "microsoft", name: "Microsoft", type: "Product" },
+            { id: "startup", name: "Early Stage Startup", type: "Startup" },
+            { id: "consulting", name: "Consulting Firm", type: "Consulting" }
+        ];
+
+        const skillSets = [
+            { id: "frontend", name: "Frontend Heavy", skills: ["React", "TypeScript", "CSS"] },
+            { id: "backend", name: "Backend Heavy", skills: ["Node.js", "Python", "SQL"] },
+            { id: "fullstack", name: "Full Stack", skills: ["React", "Node.js", "Database"] },
+            { id: "data", name: "Data Engineering", skills: ["Python", "SQL", "Spark"] }
+        ];
+
+        let selectedCompany = companies[0];
+        let selectedSkillSet = skillSets[2];
+
+        const scoreSkills = [
+            { id: "1", name: "React", category: "Technical", weight: 10, enabled: true },
+            { id: "2", name: "TypeScript", category: "Technical", weight: 8, enabled: true },
+            { id: "3", name: "Node.js", category: "Technical", weight: 7, enabled: false },
+            { id: "4", name: "Communication", category: "Soft Skills", weight: 9, enabled: true },
+            { id: "5", name: "Problem Solving", category: "Soft Skills", weight: 8, enabled: true },
+            { id: "6", name: "Agile/Scrum", category: "Domain", weight: 5, enabled: false },
+            { id: "7", name: "System Design", category: "Technical", weight: 9, enabled: false },
+            { id: "8", name: "Teamwork", category: "Soft Skills", weight: 7, enabled: true }
+        ];
+
+        let assessments = [];
+
+        // ==================== LOCAL STORAGE ====================
+        function loadFromStorage() {
+            const stored = localStorage.getItem('prp_test_checklist');
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    checklist = checklistData.map(defaultItem => {
+                        const storedItem = parsed.find(item => item.id === defaultItem.id);
+                        return storedItem ? { ...defaultItem, checked: storedItem.checked } : defaultItem;
+                    });
+                } catch (e) {
+                    console.error('Failed to parse checklist', e);
+                }
+            }
+
+            const storedAssessments = localStorage.getItem('prp_assessments');
+            if (storedAssessments) {
+                try {
+                    assessments = JSON.parse(storedAssessments);
+                } catch (e) {
+                    console.error('Failed to parse assessments', e);
+                }
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('prp_test_checklist', JSON.stringify(checklist));
+            localStorage.setItem('prp_assessments', JSON.stringify(assessments));
+        }
+
+        // ==================== NAVIGATION ====================
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.querySelectorAll(`[data-page="${pageId}"]`).forEach(l => l.classList.add('active'));
+            
+            window.scrollTo(0, 0);
+            
+            // Render page-specific content
+            if (pageId === 'extract') renderSkills();
+            if (pageId === 'map') renderMap();
+            if (pageId === 'score') renderScore();
+            if (pageId === 'history') renderHistory();
+            if (pageId === 'export') renderExport();
+            if (pageId === 'test') renderChecklist();
+            if (pageId === 'ship') renderShip();
+        }
+
+        // ==================== UPLOAD PAGE ====================
+        document.getElementById('jd-text').addEventListener('input', function() {
+            document.getElementById('jd-char-count').textContent = this.value.length + ' characters';
+            document.getElementById('jd-error').classList.add('hidden');
+            document.getElementById('jd-warning').classList.add('hidden');
+        });
+
+        function processJD() {
+            const text = document.getElementById('jd-text').value.trim();
+            const errorEl = document.getElementById('jd-error');
+            const warningEl = document.getElementById('jd-warning');
+            
+            errorEl.classList.add('hidden');
+            warningEl.classList.add('hidden');
+            
+            if (!text) {
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            if (text.length < 200) {
+                warningEl.classList.remove('hidden');
+            }
+            
+            // Navigate to extract page
+            showPage('extract');
+        }
+
+        // ==================== EXTRACT PAGE ====================
+        function renderSkills() {
+            const container = document.getElementById('skills-container');
+            container.innerHTML = skillGroups.map(group => `
+                <div class="card">
+                    <div class="card-header">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <h2>${group.category}</h2>
+                        <span style="margin-left: auto; font-size: 0.875rem; color: #6b7280;">${group.skills.length} skills</span>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        ${group.skills.map(skill => `
+                            <span class="tag tag-${skill.level}">
+                                ${skill.name}
+                                <span style="margin-left: 0.25rem; font-size: 0.75rem; opacity: 0.75;">(${skill.level})</span>
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== MAP PAGE ====================
+        function renderMap() {
+            // Render companies
+            document.getElementById('company-list').innerHTML = companies.map(c => `
+                <button class="btn ${selectedCompany.id === c.id ? 'btn-primary' : 'btn-secondary'}" 
+                        style="justify-content: flex-start; text-align: left;"
+                        onclick="selectCompany('${c.id}')">
+                    <div>
+                        <div style="font-weight: 500;">${c.name}</div>
+                        <div style="font-size: 0.75rem; opacity: 0.75;">${c.type}</div>
+                    </div>
+                </button>
+            `).join('');
+
+            // Render skill sets
+            document.getElementById('skillset-list').innerHTML = skillSets.map(s => `
+                <button class="btn ${selectedSkillSet.id === s.id ? 'btn-primary' : 'btn-secondary'}" 
+                        style="justify-content: flex-start; text-align: left;"
+                        onclick="selectSkillSet('${s.id}')">
+                    <div>
+                        <div style="font-weight: 500;">${s.name}</div>
+                        <div style="font-size: 0.75rem; opacity: 0.75;">${s.skills.join(', ')}</div>
+                    </div>
+                </button>
+            `).join('');
+
+            renderRounds();
+        }
+
+        function selectCompany(id) {
+            selectedCompany = companies.find(c => c.id === id);
+            renderMap();
+        }
+
+        function selectSkillSet(id) {
+            selectedSkillSet = skillSets.find(s => s.id === id);
+            renderMap();
+        }
+
+        function getRounds() {
+            const baseRounds = [
+                { name: "Resume Screening", type: "screening", description: "Initial resume and application review" },
+                { name: "Online Assessment", type: "technical", description: "Coding test and aptitude questions" }
+            ];
+
+            if (selectedCompany.type === "Product") {
+                baseRounds.push(
+                    { name: "Technical Phone Screen", type: "technical", description: "Live coding with an engineer" },
+                    { name: "Onsite/Virtual Onsite", type: "technical", description: "Multiple rounds of interviews" },
+                    { name: "System Design", type: "design", description: "Design scalable distributed systems" },
+                    { name: "Behavioral", type: "behavioral", description: "Leadership principles and culture fit" }
+                );
+            } else if (selectedCompany.type === "Startup") {
+                baseRounds.push(
+                    { name: "Founder Interview", type: "behavioral", description: "Direct conversation with founders" },
+                    { name: "Technical Deep Dive", type: "technical", description: "In-depth technical discussion" },
+                    { name: "Take-home Assignment", type: "practical", description: "Real-world problem solving" }
+                );
+            } else if (selectedCompany.type === "Consulting") {
+                baseRounds.push(
+                    { name: "Case Interview", type: "analytical", description: "Business problem solving" },
+                    { name: "Behavioral", type: "behavioral", description: "Fit and experience discussion" },
+                    { name: "Group Discussion", type: "behavioral", description: "Team collaboration assessment" }
+                );
+            }
+
+            if (selectedSkillSet.id === "frontend") {
+                baseRounds.push({ name: "UI/UX Discussion", type: "design", description: "Frontend architecture and UX principles" });
+            } else if (selectedSkillSet.id === "data") {
+                baseRounds.push({ name: "Data Modeling", type: "technical", description: "Database design and ETL processes" });
+            }
+
+            return baseRounds;
+        }
+
+        function renderRounds() {
+            const rounds = getRounds();
+            document.getElementById('round-count').textContent = rounds.length + ' rounds';
+            
+            const colors = {
+                screening: { bg: '#f3f4f6', border: '#d1d5db' },
+                technical: { bg: '#eff6ff', border: '#93c5fd' },
+                behavioral: { bg: '#f0fdf4', border: '#86efac' },
+                design: { bg: '#faf5ff', border: '#d8b4fe' },
+                practical: { bg: '#fff7ed', border: '#fdba74' },
+                analytical: { bg: '#fdf2f8', border: '#f9a8d4' }
+            };
+
+            document.getElementById('rounds-container').innerHTML = rounds.map((round, i) => `
+                <div style="display: flex; align-items: flex-start; padding: 1rem; border-radius: 0.5rem; border: 2px solid ${colors[round.type]?.border || '#e5e7eb'}; background: ${colors[round.type]?.bg || '#f9fafb'}; margin-bottom: 1rem;">
+                    <div style="flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: white; border: 2px solid #6b7280; color: #6b7280; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; margin-right: 1rem;">${i + 1}</div>
+                    <div style="flex: 1;">
+                        <h3 style="font-weight: 600; color: #111827;">${round.name}</h3>
+                        <p style="font-size: 0.875rem; color: #4b5563; margin-top: 0.25rem;">${round.description}</p>
+                        <span style="display: inline-block; margin-top: 0.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280;">${round.type}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== SCORE PAGE ====================
+        function renderScore() {
+            updateScore();
+            renderSkillToggles();
+        }
+
+        function updateScore() {
+            const enabledSkills = scoreSkills.filter(s => s.enabled);
+            const total = enabledSkills.reduce((sum, s) => sum + s.weight, 0);
+            const max = scoreSkills.reduce((sum, s) => sum + s.weight, 0);
+            const percentage = max > 0 ? Math.round((total / max) * 100) : 0;
+
+            // Update circle
+            const circumference = 283;
+            const offset = circumference - (percentage / 100) * circumference;
+            document.getElementById('score-progress').style.strokeDasharray = `${percentage * 2.83} 283`;
+            
+            // Update colors
+            const color = percentage >= 80 ? '#16a34a' : percentage >= 60 ? '#ca8a04' : '#dc2626';
+            document.getElementById('score-progress').style.color = color;
+            document.getElementById('score-percentage').style.color = color;
+            document.getElementById('score-percentage').textContent = percentage + '%';
+            document.getElementById('score-points').textContent = `${total} / ${max} points`;
+
+            const message = percentage >= 80 ? "Excellent! You're well prepared." : 
+                           percentage >= 60 ? "Good progress. Keep improving." : 
+                           "Needs work. Focus on key skills.";
+            const msgEl = document.getElementById('score-message');
+            msgEl.textContent = message;
+            msgEl.style.color = color;
+        }
+
+        function renderSkillToggles() {
+            const categories = [...new Set(scoreSkills.map(s => s.category))];
+            
+            document.getElementById('skills-toggle-container').innerHTML = categories.map(cat => `
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 0.875rem; font-weight: 500; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">${cat}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.75rem;">
+                        ${scoreSkills.filter(s => s.category === cat).map(skill => `
+                            <div class="skill-toggle ${skill.enabled ? 'enabled' : ''}" onclick="toggleSkill('${skill.id}')">
+                                <div class="skill-toggle-left">
+                                    <div class="skill-checkbox">
+                                        ${skill.enabled ? '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' : '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>'}
+                                    </div>
+                                    <span class="skill-name">${skill.name}</span>
+                                </div>
+                                <span class="skill-weight">+${skill.weight}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleSkill(id) {
+            const skill = scoreSkills.find(s => s.id === id);
+            skill.enabled = !skill.enabled;
+            renderSkillToggles();
+            updateScore();
+        }
+
+        function resetSkills() {
+            scoreSkills.forEach(s => s.enabled = false);
+            renderSkillToggles();
+            updateScore();
+        }
+
+        // ==================== HISTORY PAGE ====================
+        function renderHistory() {
+            document.getElementById('history-count').textContent = assessments.length + ' assessment' + (assessments.length !== 1 ? 's' : '') + ' saved';
+            
+            const container = document.getElementById('history-container');
+            
+            if (assessments.length === 0) {
+                container.innerHTML = `
+                    <div class="card" style="text-align: center; padding: 3rem; border: 2px dashed #d1d5db; background: #f9fafb;">
+                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #9ca3af; margin: 0 auto 1rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 0.5rem;">No assessments yet</h3>
+                        <p style="color: #6b7280; margin-bottom: 1rem;">Your saved assessments will appear here.</p>
+                        <button class="btn btn-primary" onclick="addSampleAssessment()">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                            Create Test Assessment
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = assessments.map(a => `
+                <div class="history-item">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <div class="history-header">
+                                <span class="history-role">${a.role}</span>
+                                <span class="history-at">at</span>
+                                <span class="history-company">${a.company}</span>
+                            </div>
+                            <p class="history-date">${new Date(a.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                            <div class="history-meta">
+                                <span class="history-score" style="color: ${a.score >= 80 ? '#16a34a' : a.score >= 60 ? '#ca8a04' : '#dc2626'}">${a.score}%</span>
+                                <span style="font-size: 0.875rem; color: #6b7280;">score</span>
+                                <div style="display: flex; gap: 0.25rem;">
+                                    ${a.skills.map(s => `<span style="padding: 0.25rem 0.5rem; background: #f3f4f6; border-radius: 9999px; font-size: 0.75rem;">${s}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" style="padding: 0.5rem;" onclick="deleteAssessment('${a.id}')">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addSampleAssessment() {
+            const sample = {
+                id: Date.now().toString(),
+                company: "Google",
+                role: "Senior Frontend Engineer",
+                score: 85,
+                date: new Date().toISOString(),
+                skills: ["React", "TypeScript", "System Design"]
+            };
+            assessments.unshift(sample);
+            saveToStorage();
+            renderHistory();
+        }
+
+        function deleteAssessment(id) {
+            assessments = assessments.filter(a => a.id !== id);
+            saveToStorage();
+            renderHistory();
+        }
+
+        // ==================== EXPORT PAGE ====================
+        function renderExport() {
+            const sampleData = {
+                company: "Google",
+                role: "Senior Frontend Engineer",
+                score: 85,
+                skills: ["React", "TypeScript", "System Design", "Communication"],
+                rounds: ["Resume Screening", "Online Assessment", "Technical Phone Screen", "Onsite Interviews", "System Design", "Behavioral"]
+            };
+
+            const formats = [
+                {
+                    id: "summary",
+                    name: "Summary",
+                    content: `Placement Readiness Assessment
+Company: ${sampleData.company}
+Role: ${sampleData.role}
+Score: ${sampleData.score}%
+
+Key Skills:
+${sampleData.skills.map(s => `- ${s}`).join('\n')}
+
+Assessment Rounds:
+${sampleData.rounds.map((r, i) => `${i + 1}. ${r}`).join('\n')}`
+                },
+                {
+                    id: "json",
+                    name: "JSON",
+                    content: JSON.stringify(sampleData, null, 2)
+                },
+                {
+                    id: "email",
+                    name: "Email Format",
+                    content: `Subject: Placement Readiness Assessment - ${sampleData.company}
+
+Hi,
+
+I've completed a placement readiness assessment for ${sampleData.role} at ${sampleData.company}.
+
+Overall Score: ${sampleData.score}%
+
+My assessed skills include:
+${sampleData.skills.join(", ")}
+
+The assessment covers ${sampleData.rounds.length} rounds:
+${sampleData.rounds.join(", ")}
+
+Best regards`
+                }
+            ];
+
+            document.getElementById('export-container').innerHTML = formats.map(format => `
+                <div class="export-format">
+                    <div class="export-header">
+                        <div class="export-title">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <h3>${format.name}</h3>
+                        </div>
+                        <button class="btn btn-primary" onclick="copyToClipboard(this, '${format.id}')">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            Copy
+                        </button>
+                    </div>
+                    <div class="export-content">
+                        <pre>${format.content}</pre>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function copyToClipboard(btn, formatId) {
+            const sampleData = {
+                company: "Google",
+                role: "Senior Frontend Engineer",
+                score: 85,
+                skills: ["React", "TypeScript", "System Design", "Communication"],
+                rounds: ["Resume Screening", "Online Assessment", "Technical Phone Screen", "Onsite Interviews", "System Design", "Behavioral"]
+            };
+
+            let content = '';
+            if (formatId === 'summary') {
+                content = `Placement Readiness Assessment\nCompany: ${sampleData.company}\nRole: ${sampleData.role}\nScore: ${sampleData.score}%\n\nKey Skills:\n${sampleData.skills.map(s => `- ${s}`).join('\n')}\n\nAssessment Rounds:\n${sampleData.rounds.map((r, i) => `${i + 1}. ${r}`).join('\n')}`;
+            } else if (formatId === 'json') {
+                content = JSON.stringify(sampleData, null, 2);
+            } else if (formatId === 'email') {
+                content = `Subject: Placement Readiness Assessment - ${sampleData.company}\n\nHi,\n\nI've completed a placement readiness assessment for ${sampleData.role} at ${sampleData.company}.\n\nOverall Score: ${sampleData.score}%\n\nMy assessed skills include:\n${sampleData.skills.join(", ")}\n\nThe assessment covers ${sampleData.rounds.length} rounds:\n${sampleData.rounds.join(", ")}\n\nBest regards`;
+            }
+
+            navigator.clipboard.writeText(content).then(() => {
+                btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied!';
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+                setTimeout(() => {
+                    btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy';
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn-primary');
+                }, 2000);
+            });
+        }
+
+        // ==================== TEST CHECKLIST PAGE ====================
+        function renderChecklist() {
+            const checkedCount = checklist.filter(i => i.checked).length;
+            const totalCount = checklist.length;
+            const allChecked = checkedCount === totalCount;
+            const percentage = Math.round((checkedCount / totalCount) * 100);
+
+            // Update summary
+            const summaryEl = document.getElementById('checklist-summary');
+            summaryEl.className = 'checklist-summary ' + (allChecked ? 'complete' : 'incomplete');
+
+            document.getElementById('summary-title').textContent = `Tests Passed: ${checkedCount} / ${totalCount}`;
+            document.getElementById('summary-subtitle').textContent = allChecked ? 'All tests passed! Ready to ship.' : `${totalCount - checkedCount} tests remaining`;
+            document.getElementById('summary-percentage').textContent = percentage + '%';
+            document.getElementById('summary-percentage').style.color = allChecked ? '#16a34a' : '#111827';
+
+            const iconEl = document.getElementById('summary-icon');
+            iconEl.style.background = allChecked ? '#dcfce7' : 'var(--primary-100)';
+            iconEl.style.color = allChecked ? '#16a34a' : 'var(--primary-600)';
+
+            document.getElementById('checklist-warning').classList.toggle('hidden', allChecked);
+            document.getElementById('checklist-success').classList.toggle('hidden', !allChecked);
+
+            // Update progress
+            document.getElementById('progress-text').textContent = `${checkedCount} of ${totalCount}`;
+            const fillEl = document.getElementById('progress-fill');
+            fillEl.style.width = percentage + '%';
+            fillEl.className = 'progress-bar-fill ' + (allChecked ? 'complete' : 'incomplete');
+
+            // Render items
+            document.getElementById('checklist-container').innerHTML = checklist.map((item, index) => `
+                <div class="checklist-item ${item.checked ? 'checked' : ''}">
+                    <div class="checkbox-wrapper">
+                        <div class="checkbox ${item.checked ? 'checked' : ''}" onclick="toggleChecklistItem('${item.id}')">
+                            ${item.checked ? '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>' : ''}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <span class="checklist-number">${String(index + 1).padStart(2, '0')}</span>
+                                    <span class="checklist-label">${item.label}</span>
+                                </div>
+                                <button class="hint-button" onclick="toggleHint('${item.id}', event)">
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </button>
+                            </div>
+                            ${expandedHints.has(item.id) ? `
+                                <div class="hint-box">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <div>
+                                        <div class="hint-label">How to test</div>
+                                        <div class="hint-text">${item.hint}</div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleChecklistItem(id) {
+            const item = checklist.find(i => i.id === id);
+            item.checked = !item.checked;
+            saveToStorage();
+            renderChecklist();
+        }
+
+        function toggleHint(id, event) {
+            event.stopPropagation();
+            if (expandedHints.has(id)) {
+                expandedHints.delete(id);
+            } else {
+                expandedHints.add(id);
+            }
+            renderChecklist();
+        }
+
+        function resetChecklist() {
+            checklist.forEach(item => item.checked = false);
+            saveToStorage();
+            renderChecklist();
+        }
+
+        // ==================== SHIP PAGE ====================
+        function renderShip() {
+            const checkedCount = checklist.filter(i => i.checked).length;
+            const totalCount = checklist.length;
+            const allChecked = checkedCount === totalCount;
+
+            const container = document.getElementById('ship-content');
+
+            if (!allChecked) {
+                // Lock screen
+                container.innerHTML = `
+                    <div class="lock-screen">
+                        <div class="text-center mb-8">
+                            <h1>Ship</h1>
+                            <p class="page-description">Deploy your application to production</p>
+                        </div>
+
+                        <div class="lock-card">
+                            <div class="lock-header">
+                                <div class="lock-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                </div>
+                                <h2 style="color: #991b1b; font-size: 1.5rem;">Shipping Locked</h2>
+                                <p style="color: #dc2626; margin-top: 0.5rem;">Complete all tests before shipping</p>
+                            </div>
+
+                            <div class="lock-content">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <span style="color: #374151; font-weight: 500;">Test Progress</span>
+                                    <span style="font-weight: 700;">${checkedCount} / ${totalCount}</span>
+                                </div>
+
+                                <div class="progress-bar-bg" style="margin-bottom: 1.5rem;">
+                                    <div class="progress-bar-fill" style="width: ${(checkedCount / totalCount) * 100}%; background: #dc2626;"></div>
+                                </div>
+
+                                <div class="alert alert-warning" style="margin-bottom: 1.5rem;">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    <div>
+                                        <h3 style="font-size: 0.875rem; font-weight: 600;">Fix issues before shipping</h3>
+                                        <p style="font-size: 0.875rem; margin-top: 0.25rem;">You must complete all ${totalCount} tests in the Test Checklist before you can ship.</p>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="showPage('test')">
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                                    Go to Test Checklist
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-left: 0.5rem; margin-right: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                                </button>
+
+                                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: #6b7280;">
+                                    ${totalCount - checkedCount} test${totalCount - checkedCount !== 1 ? 's' : ''} remaining
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Unlocked ship page
+                container.innerHTML = `
+                    <div>
+                        <h1>Ship</h1>
+                        <p class="page-description">Your application has passed all tests and is ready for deployment.</p>
+
+                        <div class="alert alert-success" style="margin-bottom: 2rem;">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div>
+                                <h2 style="color: #166534; font-size: 1.25rem;">All Tests Passed!</h2>
+                                <p style="color: #15803d;">${checkedCount} / ${totalCount} tests completed. Ready to ship.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid-2" style="margin-bottom: 2rem;">
+                            <div class="card">
+                                <div class="card-header">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <h2>Deploy to Vercel</h2>
+                                </div>
+                                <p style="color: #6b7280; margin-bottom: 1rem;">Deploy your application to Vercel for fast, global edge hosting.</p>
+                                <button class="btn btn-primary" style="width: 100%; background: #000;">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                    Deploy Now
+                                </button>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                    <h2>Push to GitHub</h2>
+                                </div>
+                                <p style="color: #6b7280; margin-bottom: 1rem;">Push your code to GitHub for version control and CI/CD integration.</p>
+                                <button class="btn btn-primary" style="width: 100%; background: #333;">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                    Push Code
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                <h2>Ready to Launch</h2>
+                            </div>
+
+                            <div class="space-y-4" style="margin-bottom: 1.5rem;">
+                                <div class="alert alert-success" style="margin: 0;">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span style="color: #166534;">All 10 tests passed</span>
+                                </div>
+                                <div class="alert alert-success" style="margin: 0;">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span style="color: #166534;">No console errors detected</span>
+                                </div>
+                                <div class="alert alert-success" style="margin: 0;">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span style="color: #166534;">Data persistence verified</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg" style="width: 100%;">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                Ship to Production
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-6">
+                            <button class="btn btn-secondary" onclick="showPage('test')">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                                Return to Test Checklist
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        loadFromStorage();
+        showPage('home');
+    </script>
+</body>
+</html>
